@@ -1,0 +1,85 @@
+<?php
+$con = mysqli_connect('localhost','root','','phplogin');
+
+if(isset($_POST['login']))
+{
+$id = $_POST['id'];
+$pass = $_POST['pass'];
+
+$query ="SELECT * FROM phplogin where id=? AND password=?";
+$stmt = mysqli_prepare($con,$query);
+mysqli_stmt_bind_param($stmt,'ss',$id,$pass);
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
+if(mysqli_fetch_assoc($result))
+{
+    echo"<script type='text/javascript'> 
+    alert('login success');
+    window.location.href = 'index.html';
+    </script>";
+
+}
+else{
+    echo"<script type='text/javascript'> alert('login fail')</script>";
+}
+}
+?>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    </head>
+    <script>
+function showPass() 
+
+{
+    const showpass = document.getElementById('showpasswrd');
+    const eyeIcon = document.getElementById('eyeIcon');
+
+    if (showpass.type === 'password') {
+        showpass.type = 'text';
+        eyeIcon.classList.remove("fa-eye");
+        eyeIcon.classList.add("fa-eye-slash");
+    } else {
+        showpass.type = 'password';
+        eyeIcon.classList.remove("fa-eye-slash");
+        eyeIcon.classList.add("fa-eye");
+    }
+}
+ </script> 
+<body>
+
+<div class="container"> 
+    <div class="row"> 
+        <div class="col-md-6"> 
+            <div class="card"> 
+                <form method="post" action="" class="box"> 
+                    <h1>Login</h1> 
+                    <p class="text-muted"> Please enter your login and password!</p> 
+                    <input type="text" name="id" placeholder="Username"/> 
+                    
+                    <div class="bottom-pas" style="position:relative;">
+                    <input type="password" name="pass" id="showpasswrd" placeholder="Password" required/> 
+                     <span class="password-toggle-icon" onclick="showPass()"><i id="eyeIcon" class="fas fa-eye"></i></span> 
+                  
+                    </div>
+
+                    <input type="submit" name="login" value="LOGIN" href="#"> 
+
+                    <p class="text-center text-muted mt-5 mb-0">Register account <a href="registration.php"
+                    class="fw-bold text-body"><u>here</u></a></p>
+                    
+                </form> 
+            </div> 
+        </div> 
+    </div>
+    
+</div>
+  
+
+</body>
+</html>
